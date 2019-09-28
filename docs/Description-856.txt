@@ -1,0 +1,3 @@
+DESCRIPTION-
+
+Need to add analog inputs? This chip will add 8 channels of 10-bit analog input to your microcontroller or microcomputer project. It's super easy to use, and uses SPI so only 4 pins are required. We chose this chip as a great accompaniment to the Raspberry Pi computer, because its fun to have analog inputs but the Pi does not have an ADC.

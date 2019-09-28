@@ -1,0 +1,22 @@
+DESCRIPTION-
+
+For microcontrollers without an analog-to-digital converter or when you want a higher-precision ADC, the ADS1015 provides 12-bit precision at 3300 samples/second over I2C. The chip can be configured as 4 single-ended input channels, or two differential channels. As a nice bonus, it even includes a programmable gain amplifier, up to x16, to help boost up smaller single/differential signals to the full range. We like this ADC because it can run from 2V to 5V power/logic, can measure a large range of signals and its super easy to use. It is a great general purpose 12 bit converter.
+
+The chip's fairly small so it comes on a breakout board with ferrites to keep the AVDD and AGND quiet. Interfacing is done via I2C. The address can be changed to one of four options (see the datasheet table 5) so you can have up to 4 ADS1015's connected on a single 2-wire I2C bus for 16 single ended inputs.
+
+To get you started, we have example code for both the Raspberry Pi (in our Adafruit Pi Python library), Arduino (in our ADS1X15 Arduino library repository) and CircuitPython Simply connect GND to ground, VDD to your logic power supply, and SCL/SDA to your microcontroller's I2C port and run the example code to start reading data.
+
+Our detailed guide will get you started with wiring diagrams, example code for Arduino & CircuitPython, datasheets, and more!
+
+TECHNICAL DETAILS
+- WIDE SUPPLY RANGE: 2.0V to 5.5V
+- LOW CURRENT CONSUMPTION: Continuous Mode: Only 150µA Single-Shot Mode: Auto Shut-Down
+- PROGRAMMABLE DATA RATE: 128SPS to 3.3kSPS
+- INTERNAL LOW-DRIFT VOLTAGE REFERENCE
+- INTERNAL OSCILLATOR
+- INTERNAL PGA
+- I2C INTERFACE: Pin-Selectable Addresses
+- FOUR SINGLE-ENDED OR TWO DIFFERENTIAL INPUTS
+- PROGRAMMABLE COMPARATOR
+- This board/chip uses I2C 7-bit addresses between 0x48-0x4B, selectable with jumpers
+

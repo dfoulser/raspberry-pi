@@ -1,0 +1,12 @@
+DESCRIPTION-
+Add an ear to your project with this well-designed electret microphone amplifier. This fully assembled and tested board comes with a 20-20KHz electret microphone soldered on. For the amplification, we use the Maxim MAX4466, an op-amp specifically designed for this delicate task! The amplifier has excellent power supply noise rejection, so this amplifier sounds really good and isn't nearly as noisy or scratchy as other mic amp breakouts we've tried!
+
+This breakout is best used for projects such as voice changers, audio recording/sampling, and audio-reactive projects that use FFT. On the back, we include a small trimmer pot to adjust the gain. You can set the gain from 25x to 125x. That's down to be about 200mVpp (for normal speaking volume about 6" away) which is good for attaching to something that expects 'line level' input without clipping, or up to about 1Vpp, ideal for reading from a microcontroller ADC. The output is rail-to-rail so if the sounds gets loud, the output can go up to 5Vpp!
+
+Using it is simple: connect GND to ground, VCC to 2.4-5VDC. For the best performance, use the "quietest" supply available (on an Arduino, this would be the 3.3V supply). The audio waveform will come out of the OUT pin. The output will have a DC bias of VCC/2 so when its perfectly quiet, the voltage will be a steady VCC/2 volts (it is DC coupled). If the audio equipment you're using requires AC coupled audio, place a 100uF capacitor between the output pin and the input of your device. If you're connecting to an audio amplifier that has differential inputs or includes decoupling capacitors, the 100uF cap is not required.
+
+The output pin is not designed to drive speakers or anything but the smallest in-ear headphones - you'll need an audio amplifier (such as our 3.7W stereo amp) if you want to connect the amp directly to speakers. If you're connecting to a microcontroller pin, you don't need an amplifier or decoupling capacitor - connect the OUT pin directly to the microcontroller ADC pin.
+
+For audio-reactive Arduino projects, we suggest using an FFT driver library (such as the one in this library) which can take the audio input and 'translate' it into frequencies. Also, check out this awesome Voice Changer project that uses this mic and an Adafruit Wave Shield!
+
+If you're using with CircuitPython, this audio-reactive pendant project is pretty easy and works great with any CircuitPython board.
