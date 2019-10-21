@@ -1,3 +1,20 @@
+2019-10-18
+http://pysoundfile.readthedocs.io/
+This library looks like a Py-wrapped C library that converts between Numpy arrays 
+and sound files of various formats.  Examples of things you can do include:
+
+    Block Processing
+
+    Sound files can also be read in short, optionally overlapping blocks with soundfile.blocks(). For example, this calculates the signal level for each block of a long file:
+
+    import numpy as np
+    import soundfile as sf
+
+    rms = [np.sqrt(np.mean(block**2)) for block in
+        sf.blocks('myfile.wav', blocksize=1024, overlap=512)]
+
+
+
 2019-10-04
 
 Adafruit.com page describing how to configure and use the ADS1015 from Python.
