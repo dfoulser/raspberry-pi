@@ -59,12 +59,34 @@ def stopAdc(adc):
     # Stop continuous conversion.  After this point you can't get data from get_last_result!
     adc.stop_adc()
 
+def readData(adcs, samplesArray, data_rate=DATA_RATE, duration=DURATION_SECONDS):
+    print('Reading ADS1x15 channel 0 for 5 seconds...')
+    start = time.time()
+    timeStamp = start
+    sample = 0
+    SAMPLE_COUNT = duration * data_rate
+    interval = 1.0/DATA_RATE
+    while sample < SAMPLE_COUNT && timeStamp < (start + interval * SAMPLE_COUNT):
+        for i in range(NUM_DEVICES):
+            # Read the last ADC conversion value and save it.
+            samplesArray[i, sample] = adcs[i].get_last_result()
+        # WARNING! If you try to read any other channel of this ADC during this continuous
+        # conversion (like by calling read_adc again) it will disable the
+        # continuous conversion!
+        # print('Channel 0: {0}'.format(value))
+        # Sleep for rest of the interval (until next timeStamp)
+        sample = sample + 1
+        timeStamp = timeStamp + interval
+        time.sleep(timeStamp - time.time())
+
+
 def main():
     handleArgs()
     for i in range(NUM_DEVICES):
         adc[i] = setupAdc()
     samplesArray = allocateSamplesArray()
     # Read the data
+    readData(adcs, samplesArray)
     # Write the array of samples as sound file
     # Close the ADCs
     for i in range(NUM_DEVICES):
