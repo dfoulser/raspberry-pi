@@ -1,9 +1,11 @@
 # Code to read Mic + ADC data from I2C bus and write it out to 
 # files based on filename prefix.  Use file rolling per minute.
-import argparse
-import numpy as np
 # Import the ADS1x15 module.
 import Adafruit_ADS1x15
+import argparse
+import numpy as np
+# Import the sound library for read/write WAV files (also compressed MP3)
+import soundfile
 
 int SAMPLE_RATE = 3300  # 3300 Hz is fastest the ADS1015 can read
 int DURATION_SECONDS = 60  # one minutes
@@ -19,7 +21,7 @@ def handleArgs():
         const=sum, default=1, help='duration of sampling in minutes')
 
     args = parser.parse_args()
-    print(args.accumulate(args.filename))
+    return args
 
 def allocateSamplesArray():
     array = np.zeros((NUM_DEVICES, SAMPLE_RATE * DURATION_SECONDS), dtype=int16 )
@@ -60,14 +62,14 @@ def stopAdc(adc):
     adc.stop_adc()
 
 def readData(adcs, samplesArray, data_rate=DATA_RATE, duration=DURATION_SECONDS):
-    print('Reading ADS1x15 channel 0 for 5 seconds...')
+    print('Reading %d ADS1015 channel 0 for %d seconds...', adcs.shape()[0], duration)
     start = time.time()
     timeStamp = start
     sample = 0
     SAMPLE_COUNT = duration * data_rate
     interval = 1.0/DATA_RATE
     while sample < SAMPLE_COUNT && timeStamp < (start + interval * SAMPLE_COUNT):
-        for i in range(NUM_DEVICES):
+        for i in range(adcs.shape()[0]):
             # Read the last ADC conversion value and save it.
             samplesArray[i, sample] = adcs[i].get_last_result()
         # WARNING! If you try to read any other channel of this ADC during this continuous
@@ -79,15 +81,23 @@ def readData(adcs, samplesArray, data_rate=DATA_RATE, duration=DURATION_SECONDS)
         timeStamp = timeStamp + interval
         time.sleep(timeStamp - time.time())
 
+def getDatetimeFilename(prefix):
+    timeStamp = time.time()
+    filename = prefix + timeStamp.strftime('_%Y%m%d_%H%M.wav')
+    return filename
+
 
 def main():
-    handleArgs()
+    args = handleArgs()
+    adcs = []
     for i in range(NUM_DEVICES):
-        adc[i] = setupAdc()
+        adcs[i] = setupAdc()
     samplesArray = allocateSamplesArray()
     # Read the data
     readData(adcs, samplesArray)
     # Write the array of samples as sound file
+    filename = getDatetimeFilename(args.filename)
+    soundfile.write(filename, samplesArray, DATA_RATE)
     # Close the ADCs
     for i in range(NUM_DEVICES):
         stopAdc(adc[i])
