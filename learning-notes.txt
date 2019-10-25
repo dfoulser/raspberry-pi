@@ -1,3 +1,13 @@
+2019-10-25
+Now I'm able to read >3300Hz from the ADC.  This involved increasing the I2C bus
+speed to 1Mbps.  At this point it seems possible to read multiple ADCs at 3300Hz.
+
+The reading is a bit jittery, so I'm wondering whether to use ionice -c 1 (RealTime mode)
+to increase IO priority for this process.  Ideally all three ADCs will read at
+approx the same time with a sleep from previous reads (so it looks like a wait()
+and then all read close to simultaneous).  Not sure what the I2C bus will do to me there.
+
+
 2019-10-18
 http://pysoundfile.readthedocs.io/
 This library looks like a Py-wrapped C library that converts between Numpy arrays 
